@@ -39,32 +39,15 @@ export function FloatingQuickAccess() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  // Sidebar is hidden by default; only shown when user clicks to open
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
   const [isAutoScrollOpen, setIsAutoScrollOpen] = useState<boolean>(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Restore collapsed state
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("bhavlaya_sidebar_collapsed");
-      if (saved !== null) {
-        setIsCollapsed(saved === "true");
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  const toggleCollapse = () => {
-    const nextState = !isCollapsed;
-    setIsCollapsed(nextState);
-    try {
-      localStorage.setItem("bhavlaya_sidebar_collapsed", String(nextState));
-    } catch {
-      // ignore
-    }
+  const toggleSidebar = () => {
+    setIsOpen((prev) => !prev);
   };
 
   const showToast = (msg: string) => {
@@ -211,22 +194,50 @@ export function FloatingQuickAccess() {
 
   return (
     <>
-      {/* 1. DESKTOP / LAPTOP FIXED RIGHT DOCK */}
+      {/* 1A. DESKTOP EDGE TRIGGER TAB (Visible when sidebar is hidden) */}
+      {!isOpen && (
+        <button
+          onClick={toggleSidebar}
+          className="hidden lg:flex fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-[#18171C]/95 hover:bg-charcoal text-gold hover:text-white border-l border-y border-gold/50 shadow-2xl rounded-l-2xl py-3 px-1.5 flex-col items-center gap-2 transition-all duration-300 group hover:pr-2.5 focus:outline-none cursor-pointer"
+          aria-label="त्वरित साधन बार खोलें"
+          title="त्वरित साधन बार खोलें"
+        >
+          <ChevronLeft className="w-4 h-4 text-saffron group-hover:-translate-x-0.5 transition-transform" />
+          <span className="text-[11px] font-semibold text-gold-light tracking-wider [writing-mode:vertical-rl] rotate-180 py-1">
+            त्वरित साधन
+          </span>
+          <Sparkles className="w-3.5 h-3.5 text-gold animate-pulse" />
+        </button>
+      )}
+
+      {/* 1B. DESKTOP / LAPTOP FIXED RIGHT DOCK (Hidden by default, shown when clicked) */}
       <aside
         className={`hidden lg:flex fixed right-2 sm:right-3 top-1/2 -translate-y-1/2 z-40 flex-col items-center transition-all duration-300 no-print ${
-          isCollapsed ? "translate-x-14" : "translate-x-0"
+          isOpen
+            ? "translate-x-0 opacity-100 pointer-events-auto"
+            : "translate-x-32 opacity-0 pointer-events-none"
         }`}
         aria-label="त्वरित साधन बार (Quick Access Tools)"
       >
         <div className="relative bg-[#18171C]/95 backdrop-blur-md border border-gold/30 rounded-3xl p-1.5 shadow-2xl max-h-[90vh] overflow-y-auto scrollbar-none flex flex-col items-center gap-1">
-          {/* Collapse / Expand Toggle Tab */}
+          {/* Hide Sidebar Tab on left edge */}
           <button
-            onClick={toggleCollapse}
-            className="absolute -left-3.5 top-1/2 -translate-y-1/2 w-4 h-9 bg-[#18171C] border border-gold/30 rounded-l-md text-gold hover:text-white flex items-center justify-center transition-colors shadow-md z-10"
-            title={isCollapsed ? "साधन बार खोलें" : "साधन बार छुपाएं"}
-            aria-label={isCollapsed ? "साधन बार खोलें" : "साधन बार छुपाएं"}
+            onClick={toggleSidebar}
+            className="absolute -left-3.5 top-1/2 -translate-y-1/2 w-4 h-9 bg-[#18171C] border border-gold/40 rounded-l-md text-gold hover:text-white flex items-center justify-center transition-colors shadow-md z-10 cursor-pointer"
+            title="साधन बार छुपाएं"
+            aria-label="साधन बार छुपाएं"
           >
-            {isCollapsed ? <ChevronLeft className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Close button at top */}
+          <button
+            onClick={toggleSidebar}
+            className="w-7 h-7 rounded-full bg-white/5 hover:bg-white/15 text-white/70 hover:text-white flex items-center justify-center transition-colors mt-0.5 mb-0.5 cursor-pointer"
+            title="साधन बार बंद करें"
+            aria-label="साधन बार बंद करें"
+          >
+            <X className="w-3.5 h-3.5" />
           </button>
 
           {/* 10 Action Buttons */}
