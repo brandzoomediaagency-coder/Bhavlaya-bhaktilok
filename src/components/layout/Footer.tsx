@@ -166,7 +166,7 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
-              {navigation.footer.explore.map((link) => (
+              {(navigation.footer.tools || navigation.footer.explore || []).map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="hover:text-saffron transition-colors">
                     {link.label}
