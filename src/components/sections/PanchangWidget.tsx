@@ -246,8 +246,8 @@ export function PanchangWidget({ showFullDetails = false }: { showFullDetails?: 
       )}
 
       {/* Footer Link */}
-      <div className="mt-5 pt-4 border-t border-gold/10 flex items-center justify-between text-xs text-stone">
-        <span className="italic">{panchang.disclaimer}</span>
+      <div className="mt-5 pt-4 border-t border-gold/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-stone">
+        <span className="italic leading-relaxed">{panchang.disclaimer}</span>
         {!showFullDetails && (
           <Link
             href="/panchang"

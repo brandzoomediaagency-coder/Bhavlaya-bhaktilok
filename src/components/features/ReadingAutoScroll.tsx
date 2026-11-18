@@ -127,8 +127,8 @@ export function ReadingAutoScroll({ isOpen, onClose }: ReadingAutoScrollProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-bottom-4 duration-200">
-      <div className="bg-[#1C1B20]/95 backdrop-blur-md text-white border border-gold/40 shadow-2xl rounded-full px-3 py-2 flex items-center gap-1.5 sm:gap-2.5">
+    <div className="fixed bottom-20 lg:bottom-6 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-bottom-4 duration-200 max-w-[96vw]">
+      <div className="bg-[#1C1B20]/95 backdrop-blur-md text-white border border-gold/40 shadow-2xl rounded-full px-2.5 sm:px-3 py-2 flex items-center gap-1 sm:gap-2.5 overflow-x-auto scrollbar-none">
         {/* Play / Pause Toggle Button */}
         <button
           onClick={togglePlay}

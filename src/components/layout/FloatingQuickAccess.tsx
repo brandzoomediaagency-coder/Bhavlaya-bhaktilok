@@ -194,19 +194,25 @@ export function FloatingQuickAccess() {
 
   return (
     <>
-      {/* 1A. DESKTOP EDGE TRIGGER TAB (Visible when sidebar is hidden) */}
-      {!isOpen && (
+      {/* 1A. UNIVERSAL EDGE TRIGGER TAB (Hidden by default, shows on right edge when tools closed) */}
+      {!isOpen && !isMobileDrawerOpen && (
         <button
-          onClick={toggleSidebar}
-          className="hidden lg:flex fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-[#18171C]/95 hover:bg-charcoal text-gold hover:text-white border-l border-y border-gold/50 shadow-2xl rounded-l-2xl py-3 px-1.5 flex-col items-center gap-2 transition-all duration-300 group hover:pr-2.5 focus:outline-none cursor-pointer"
+          onClick={() => {
+            if (typeof window !== "undefined" && window.innerWidth >= 1024) {
+              setIsOpen(true);
+            } else {
+              setIsMobileDrawerOpen(true);
+            }
+          }}
+          className="fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-[#18171C]/95 hover:bg-charcoal text-gold hover:text-white border-l border-y border-gold/50 shadow-2xl rounded-l-2xl py-2.5 sm:py-3 px-1 sm:px-1.5 flex flex-col items-center gap-1.5 sm:gap-2 transition-all duration-300 group hover:pr-2.5 focus:outline-none cursor-pointer no-print"
           aria-label="त्वरित साधन बार खोलें"
           title="त्वरित साधन बार खोलें"
         >
-          <ChevronLeft className="w-4 h-4 text-saffron group-hover:-translate-x-0.5 transition-transform" />
-          <span className="text-[11px] font-semibold text-gold-light tracking-wider [writing-mode:vertical-rl] rotate-180 py-1">
+          <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-saffron group-hover:-translate-x-0.5 transition-transform" />
+          <span className="text-[9px] sm:text-[11px] font-semibold text-gold-light tracking-wider [writing-mode:vertical-rl] rotate-180 py-0.5 sm:py-1">
             त्वरित साधन
           </span>
-          <Sparkles className="w-3.5 h-3.5 text-gold animate-pulse" />
+          <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gold animate-pulse" />
         </button>
       )}
 
@@ -291,21 +297,15 @@ export function FloatingQuickAccess() {
         </div>
       </aside>
 
-      {/* 2. MOBILE FLOATING LAUNCHER ICON */}
-      <div className="lg:hidden fixed bottom-20 right-4 z-40 no-print">
-        <button
-          onClick={() => setIsMobileDrawerOpen(true)}
-          className="w-12 h-12 rounded-full bg-maroon border border-gold/40 text-saffron-light shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
-          aria-label="त्वरित साधन मेनू"
-        >
-          <Grid className="w-5 h-5 text-gold-light" />
-        </button>
-      </div>
-
-      {/* 3. MOBILE EXPANDABLE QUICK ACTIONS BOTTOM DRAWER */}
+      {/* 2. MOBILE EXPANDABLE QUICK ACTIONS BOTTOM DRAWER (Triggered by edge tab) */}
       {isMobileDrawerOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 flex items-end bg-charcoal/60 backdrop-blur-sm animate-in fade-in duration-200 no-print">
-          <div className="w-full bg-[#18171C] border-t border-gold/30 rounded-t-3xl p-6 shadow-2xl max-h-[80vh] overflow-y-auto">
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsMobileDrawerOpen(false);
+          }}
+          className="lg:hidden fixed inset-0 z-50 flex items-end bg-charcoal/60 backdrop-blur-sm animate-in fade-in duration-200 no-print"
+        >
+          <div className="w-full bg-[#18171C] border-t border-gold/30 rounded-t-3xl p-6 pb-10 shadow-2xl max-h-[80vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
               <span className="font-serif text-base font-bold text-cream flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-saffron" />

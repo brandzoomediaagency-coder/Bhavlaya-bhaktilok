@@ -44,7 +44,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-cream border-t border-gold/20 text-charcoal pt-14 pb-8 no-print">
+    <footer className="bg-cream border-t border-gold/20 text-charcoal pt-14 pb-24 lg:pb-8 no-print">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Newsletter & Daily Inspiration Bar */}
         <div className="bg-gradient-to-r from-maroon/95 via-maroon to-maroon/95 text-white rounded-2xl p-6 sm:p-8 mb-12 shadow-md relative overflow-hidden">

@@ -38,11 +38,15 @@
 /* Global Styles */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
   background-color: var(--color-ivory);
   color: var(--color-charcoal);
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 /* Premium Typography for Hindi/Sanskrit */

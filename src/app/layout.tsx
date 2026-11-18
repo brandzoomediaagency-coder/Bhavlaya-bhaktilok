@@ -141,9 +141,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans antialiased bg-ivory text-charcoal min-h-screen flex flex-col">
+      <body className="font-sans antialiased bg-ivory text-charcoal min-h-screen flex flex-col overflow-x-hidden">
         <Header />
-        <main className="flex-1 pb-16 lg:pb-0">{children}</main>
+        <main className="flex-1">{children}</main>
         <Footer />
         <MobileBottomNav />
         <FloatingQuickAccess />
