@@ -1,26 +1,206 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Bhavlaya Design System - Custom Theme */
+@theme {
+  /* Colors */
+  --color-ivory: #FAF8F2;
+  --color-cream: #FFFDF8;
+  --color-saffron: #D97706;
+  --color-saffron-light: #F59E0B;
+  --color-saffron-dark: #B45309;
+  --color-gold: #B58A43;
+  --color-gold-light: #D4A843;
+  --color-maroon: #651D32;
+  --color-maroon-light: #8B2848;
+  --color-charcoal: #22201E;
+  --color-stone: #81786B;
+  --color-stone-light: #A39E93;
+  --color-stone-lighter: #D1CCC3;
+
+  /* Fonts */
+  --font-sans: var(--font-noto-sans), "Noto Sans Devanagari", system-ui, sans-serif;
+  --font-serif: var(--font-noto-serif), "Noto Serif Devanagari", Georgia, serif;
+  --font-inter: var(--font-inter), "Inter", system-ui, sans-serif;
+
+  /* Border Radius */
+  --radius-card: 12px;
+  --radius-button: 8px;
+  --radius-modal: 16px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 4px 12px 0 rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --shadow-dropdown: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-modal: 0 20px 50px -10px rgba(0, 0, 0, 0.15);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Global Styles */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-ivory);
+  color: var(--color-charcoal);
+}
+
+/* Premium Typography for Hindi/Sanskrit */
+.text-devanagari {
+  font-family: var(--font-sans);
+  line-height: 1.8;
+}
+
+.text-sanskrit {
+  font-family: var(--font-serif);
+  line-height: 2;
+  letter-spacing: 0.02em;
+}
+
+/* Gold accent border */
+.border-gold-accent {
+  border-image: linear-gradient(135deg, var(--color-gold), var(--color-saffron)) 1;
+}
+
+/* Saffron gradient */
+.bg-saffron-gradient {
+  background: linear-gradient(135deg, var(--color-saffron) 0%, var(--color-gold) 100%);
+}
+
+/* Premium card hover effect */
+.card-hover {
+  transition: all 0.2s ease;
+}
+.card-hover:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+/* Reading progress bar */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-saffron), var(--color-gold));
+  z-index: 100;
+  transition: width 0.1s ease;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ivory);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-stone-light);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-stone);
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-saffron);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgba(217, 119, 6, 0.15);
+  color: var(--color-charcoal);
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+    color: black;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.2s ease forwards;
+}
+
+/* Mega menu transition */
+.mega-menu-enter {
+  animation: slideDown 0.2s ease forwards;
+}
+
+/* Content article styling */
+.prose-bhavlaya h2,
+.prose-bhaktilok h2 {
+  font-family: var(--font-serif);
+  color: var(--color-maroon);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(181, 138, 67, 0.2);
+}
+
+.prose-bhavlaya h3,
+.prose-bhaktilok h3 {
+  font-family: var(--font-sans);
+  color: var(--color-charcoal);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose-bhavlaya p,
+.prose-bhaktilok p {
+  line-height: 1.9;
+  margin-bottom: 1rem;
+  font-size: 1.0625rem;
+}
+
+.prose-bhavlaya blockquote,
+.prose-bhaktilok blockquote {
+  font-family: var(--font-serif);
+  border-left: 4px solid var(--color-gold);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  background: rgba(181, 138, 67, 0.05);
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
+  font-style: italic;
+}
+
+/* Verse/Shloka styling */
+.verse-block {
+  font-family: var(--font-serif);
+  text-align: center;
+  padding: 1.5rem 2rem;
+  margin: 1.5rem 0;
+  background: linear-gradient(135deg, rgba(250, 248, 242, 0.8), rgba(255, 253, 248, 0.9));
+  border: 1px solid rgba(181, 138, 67, 0.2);
+  border-radius: var(--radius-card);
+  line-height: 2.2;
+  font-size: 1.125rem;
+  color: var(--color-maroon);
 }
