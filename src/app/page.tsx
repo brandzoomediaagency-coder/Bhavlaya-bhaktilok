@@ -570,6 +570,120 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 11.5 DAILY EXPERIENCES & STATUS STUDIO */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Daily Darshan Card */}
+          <Link
+            href="/daily-darshan"
+            className="group bg-gradient-to-br from-cream to-ivory border border-gold/30 rounded-2xl p-6 shadow-card hover:shadow-card-hover hover:border-gold transition-all flex flex-col justify-between"
+          >
+            <div className="space-y-3">
+              <span className="px-2.5 py-1 rounded-full bg-saffron/10 text-saffron-dark text-xs font-semibold uppercase tracking-wider inline-block">
+                प्रातः मंगल दर्शन
+              </span>
+              <h3 className="font-serif text-xl font-bold text-maroon group-hover:text-saffron transition-colors">
+                आज का दिव्य दर्शन
+              </h3>
+              <p className="text-xs text-stone leading-relaxed">
+                काशी विश्वनाथ ज्योतिर्लिंग प्रातः मंगला दर्शन, दैनिक शिव संकल्प और पावन आशीर्वाद।
+              </p>
+            </div>
+            <div className="pt-4 border-t border-gold/15 flex items-center justify-between text-xs font-semibold text-saffron mt-4">
+              <span>दर्शन करें</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+
+          {/* Today's Shloka Card */}
+          <Link
+            href="/daily-shloka"
+            className="group bg-gradient-to-br from-cream to-ivory border border-gold/30 rounded-2xl p-6 shadow-card hover:shadow-card-hover hover:border-gold transition-all flex flex-col justify-between"
+          >
+            <div className="space-y-3">
+              <span className="px-2.5 py-1 rounded-full bg-saffron/10 text-saffron-dark text-xs font-semibold uppercase tracking-wider inline-block">
+                दैनिक स्वाध्याय
+              </span>
+              <h3 className="font-serif text-xl font-bold text-maroon group-hover:text-saffron transition-colors">
+                आज का पावन गीता श्लोक
+              </h3>
+              <p className="text-xs text-stone leading-relaxed">
+                श्रीमद्भगवद्गीता के अमर श्लोक, पदच्छेद, शब्दार्थ एवं जीवनोपयोगी हिंदी भावार्थ।
+              </p>
+            </div>
+            <div className="pt-4 border-t border-gold/15 flex items-center justify-between text-xs font-semibold text-saffron mt-4">
+              <span>श्लोक पढ़ें</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+
+          {/* Bhakti Status Studio Card */}
+          <Link
+            href="/status-maker"
+            className="group bg-gradient-to-br from-maroon/90 to-maroon text-white border border-gold/40 rounded-2xl p-6 shadow-card hover:shadow-card-hover transition-all flex flex-col justify-between"
+          >
+            <div className="space-y-3">
+              <span className="px-2.5 py-1 rounded-full bg-saffron text-white text-xs font-semibold uppercase tracking-wider inline-block">
+                विशेष साधन
+              </span>
+              <h3 className="font-serif text-xl font-bold text-cream group-hover:text-saffron-light transition-colors">
+                भक्ति स्टेटस स्टूडियो
+              </h3>
+              <p className="text-xs text-white/80 leading-relaxed">
+                व्हाट्सएप और इंस्टाग्राम के लिए सुंदर HD श्लोक व भक्ति कार्ड बनाएं और शेयर करें।
+              </p>
+            </div>
+            <div className="pt-4 border-t border-white/15 flex items-center justify-between text-xs font-semibold text-saffron-light mt-4">
+              <span>स्टेटस बनाएं</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* 11.6 KNOWLEDGE, ENCYCLOPEDIA & ARTICLES */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Link
+            href="/encyclopedia"
+            className="group bg-cream border border-gold/25 rounded-2xl p-6 sm:p-8 hover:shadow-card hover:border-gold/60 transition-all flex flex-col justify-between"
+          >
+            <div className="space-y-3">
+              <span className="text-xs font-semibold text-saffron uppercase tracking-wider">सनातन ज्ञानकोश</span>
+              <h3 className="font-serif text-2xl font-bold text-maroon group-hover:text-saffron transition-colors">
+                सनातन धर्म विश्वकोश
+              </h3>
+              <p className="text-stone text-xs sm:text-sm leading-relaxed">
+                12 ज्योतिर्लिंग, 51 शक्तिपीठ, चार वेद, अठारह पुराण, सप्त मोक्षदायिनी पुरियां और सनातन दर्शन का सम्पूर्ण प्रामाणिक संदर्भ।
+              </p>
+            </div>
+            <div className="pt-4 border-t border-gold/15 flex items-center justify-between text-xs font-semibold text-saffron mt-4">
+              <span>विश्वकोश में खोजें</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+
+          <Link
+            href="/articles"
+            className="group bg-cream border border-gold/25 rounded-2xl p-6 sm:p-8 hover:shadow-card hover:border-gold/60 transition-all flex flex-col justify-between"
+          >
+            <div className="space-y-3">
+              <span className="text-xs font-semibold text-saffron uppercase tracking-wider">शोध एवं विमर्श</span>
+              <h3 className="font-serif text-2xl font-bold text-maroon group-hover:text-saffron transition-colors">
+                आध्यात्मिक आलेख एवं चिंतन
+              </h3>
+              <p className="text-stone text-xs sm:text-sm leading-relaxed">
+                ज्योतिर्लिंगों का पौराणिक रहस्य, श्रीमद्भगवद्गीता का निष्काम कर्मयोग और भारतीय संस्कृति पर विद्वानों द्वारा लिखित शोध आलेख।
+              </p>
+            </div>
+            <div className="pt-4 border-t border-gold/15 flex items-center justify-between text-xs font-semibold text-saffron mt-4">
+              <span>आलेख पढ़ें</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+        </div>
+      </section>
+
       {/* 12. BHAVLAYA MOBILE APP PROMOTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-r from-saffron/15 via-gold/10 to-ivory border border-gold/30 rounded-3xl p-8 sm:p-12 relative overflow-hidden">

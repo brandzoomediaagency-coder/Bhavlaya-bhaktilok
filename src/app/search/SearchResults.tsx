@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { BHAJANS, MANTRAS, CHALISAS, AARTIS, TEMPLES, FESTIVALS, TOOLS } from "@/data/devotionalData";
+import { BHAJANS, MANTRAS, CHALISAS, AARTIS, TEMPLES, FESTIVALS, TOOLS, STOTRAS, ARTICLES, ENCYCLOPEDIA_ENTRIES } from "@/data/devotionalData";
 
 interface Props {
   searchParams: Promise<{ q?: string }>;
@@ -52,6 +52,24 @@ export async function SearchResults({ searchParams }: Props) {
     TOOLS.forEach((tool) => {
       if (tool.name.toLowerCase().includes(query) || tool.description.toLowerCase().includes(query)) {
         results.push({ title: tool.name, href: `/tools/${tool.slug}`, type: "साधन", desc: tool.description });
+      }
+    });
+
+    STOTRAS.forEach((st) => {
+      if (st.title.toLowerCase().includes(query) || st.significance.toLowerCase().includes(query) || st.deity.toLowerCase().includes(query)) {
+        results.push({ title: st.title, href: `/stotra/${st.slug}`, type: "स्तोत्र", desc: `${st.deity} · ${st.composer}` });
+      }
+    });
+
+    ARTICLES.forEach((art) => {
+      if (art.title.toLowerCase().includes(query) || art.excerpt.toLowerCase().includes(query)) {
+        results.push({ title: art.title, href: `/articles/${art.slug}`, type: "आलेख", desc: art.excerpt });
+      }
+    });
+
+    ENCYCLOPEDIA_ENTRIES.forEach((enc) => {
+      if (enc.title.toLowerCase().includes(query) || enc.summary.toLowerCase().includes(query)) {
+        results.push({ title: enc.title, href: `/encyclopedia/${enc.slug}`, type: "ज्ञानकोश", desc: enc.summary });
       }
     });
   }

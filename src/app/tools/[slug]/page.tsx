@@ -8,6 +8,8 @@ import { TempleBellPlayer } from "@/components/features/TempleBellPlayer";
 import { PanchangWidget } from "@/components/sections/PanchangWidget";
 import { PujaChecklistTool } from "@/components/features/PujaChecklistTool";
 import { BabyNamesTool } from "@/components/features/BabyNamesTool";
+import { SankalpGeneratorTool } from "@/components/features/SankalpGeneratorTool";
+import { PunyaLedgerTool } from "@/components/features/PunyaLedgerTool";
 import { Sparkles, ArrowLeft } from "lucide-react";
 
 interface Props {
@@ -62,7 +64,10 @@ export default async function ToolDetailPage({ params }: Props) {
         {tool.slug === "daily-puja-checklist" && <PujaChecklistTool />}
         {tool.slug === "brahma-muhurat-calculator" && <PanchangWidget showFullDetails={true} />}
         {tool.slug === "choghadiya-calculator" && <PanchangWidget showFullDetails={true} />}
+        {tool.slug === "rahukaal-calculator" && <PanchangWidget showFullDetails={true} />}
         {tool.slug === "hindu-baby-names" && <BabyNamesTool />}
+        {tool.slug === "puja-sankalp-generator" && <SankalpGeneratorTool />}
+        {tool.slug === "daily-punya-ledger" && <PunyaLedgerTool />}
       </div>
 
       <div className="pt-6 border-t border-gold/20 flex justify-between items-center text-sm">

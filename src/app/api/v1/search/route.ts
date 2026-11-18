@@ -1,5 +1,16 @@
 import { NextResponse } from "next/server";
-import { BHAJANS, MANTRAS, CHALISAS, AARTIS, TEMPLES, FESTIVALS, TOOLS } from "@/data/devotionalData";
+import {
+  BHAJANS,
+  MANTRAS,
+  CHALISAS,
+  AARTIS,
+  TEMPLES,
+  FESTIVALS,
+  TOOLS,
+  STOTRAS,
+  ARTICLES,
+  ENCYCLOPEDIA_ENTRIES,
+} from "@/data/devotionalData";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -50,6 +61,24 @@ export async function GET(request: Request) {
   TOOLS.forEach((tool) => {
     if (tool.name.toLowerCase().includes(q) || tool.description.toLowerCase().includes(q)) {
       results.push({ title: tool.name, href: `/tools/${tool.slug}`, type: "tool", desc: tool.description });
+    }
+  });
+
+  STOTRAS.forEach((st) => {
+    if (st.title.toLowerCase().includes(q) || st.significance.toLowerCase().includes(q) || st.deity.toLowerCase().includes(q)) {
+      results.push({ title: st.title, href: `/stotra/${st.slug}`, type: "stotra", desc: `${st.deity} · ${st.composer}` });
+    }
+  });
+
+  ARTICLES.forEach((art) => {
+    if (art.title.toLowerCase().includes(q) || art.excerpt.toLowerCase().includes(q)) {
+      results.push({ title: art.title, href: `/articles/${art.slug}`, type: "article", desc: art.excerpt });
+    }
+  });
+
+  ENCYCLOPEDIA_ENTRIES.forEach((enc) => {
+    if (enc.title.toLowerCase().includes(q) || enc.summary.toLowerCase().includes(q)) {
+      results.push({ title: enc.title, href: `/encyclopedia/${enc.slug}`, type: "encyclopedia", desc: enc.summary });
     }
   });
 

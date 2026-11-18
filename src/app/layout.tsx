@@ -3,6 +3,7 @@ import { Noto_Sans_Devanagari, Noto_Serif_Devanagari, Inter } from "next/font/go
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { siteConfig, brandConfig } from "@/config/site";
 
 const notoSans = Noto_Sans_Devanagari({
@@ -124,8 +125,9 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased bg-ivory text-charcoal min-h-screen flex flex-col">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 pb-16 lg:pb-0">{children}</main>
         <Footer />
+        <MobileBottomNav />
       </body>
     </html>
   );

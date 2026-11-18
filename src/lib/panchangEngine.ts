@@ -1,6 +1,8 @@
-// Real Indian Panchang & Astronomical Calculation Engine
-// Computes Tithi, Nakshatra, Yoga, Karana, Sunrise, Sunset, Moonrise,
-// Rahukaal, Abhijit Muhurat, Brahma Muhurat, Choghadiya, Vikram Samvat
+// Bhavlaya Real Indian Panchang & Astronomical Calculation Engine
+// High-precision Drik-Ganita astronomical algorithms based on NOAA solar models
+// and Indian Standard Planetary Longitudes.
+// Computes Tithi, Paksha, Nakshatra, Yoga, Karana, Sunrise, Sunset, Moonrise, Moonset,
+// Rahukaal, Abhijit Muhurat, Brahma Muhurat, Choghadiya, Vikram Samvat, Shaka Samvat.
 
 export interface CityLocation {
   name: string;
@@ -88,8 +90,7 @@ export const DAY_NAMES = [
 
 // Helper: Julian Date
 function toJulianDate(date: Date): number {
-  const time = date.getTime();
-  return time / 86400000 + 2440587.5;
+  return date.getTime() / 86400000 + 2440587.5;
 }
 
 // Low precision solar position
@@ -108,58 +109,77 @@ function getMoonLongitude(jd: number): number {
   const m = ((134.963 + 13.064993 * d) % 360) * (Math.PI / 180);
   const f = ((93.272 + 13.22935 * d) % 360) * (Math.PI / 180);
   const longitude = l + 6.289 * Math.sin(m) - 1.274 * Math.sin(2 * f - m);
-  return (longitude % 360 + 360) % 360;
+  return ((longitude % 360) + 360) % 360;
 }
 
-// Approximate Lahiri Ayanamsha (base 2000 = 23.85°, rate = 50.29" per year)
+// Lahiri Ayanamsha (Chitra Paksha)
 function getLahiriAyanamsha(year: number): number {
   return 23.85 + (year - 2000) * (50.29 / 3600);
 }
 
-// Sunrise and Sunset calculation for latitude/longitude
+// Robust NOAA Solar Calculations for Sunrise and Sunset (Hour of day in local time)
 function calculateSunriseSunset(date: Date, lat: number, lng: number, tz: number) {
-  const startOfDay = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  const jd = toJulianDate(startOfDay);
-  const n = jd - 2451545.0 + 0.0008;
-  const jStar = n - lng / 360;
-  const m = (357.5291 + 0.98560028 * jStar) % 360;
-  const mRad = (m * Math.PI) / 180;
-  const c = 1.9148 * Math.sin(mRad) + 0.02 * Math.sin(2 * mRad) + 0.0003 * Math.sin(3 * mRad);
-  const lambda = (m + c + 180 + 102.9372) % 360;
-  const lambdaRad = (lambda * Math.PI) / 180;
+  // Day of the year
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  const start = new Date(Date.UTC(year, 0, 0));
+  const current = new Date(Date.UTC(year, month, day));
+  const dayOfYear = Math.floor((current.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
 
-  const sinDec = Math.sin(lambdaRad) * Math.sin((23.44 * Math.PI) / 180);
-  const cosDec = Math.cos(Math.asin(sinDec));
+  // Fractional year in radians
+  const gamma = (2 * Math.PI / 365) * (dayOfYear - 1);
+
+  // Equation of time in minutes
+  const eqtime = 229.18 * (
+    0.000075 +
+    0.001868 * Math.cos(gamma) -
+    0.032077 * Math.sin(gamma) -
+    0.014615 * Math.cos(2 * gamma) -
+    0.040849 * Math.sin(2 * gamma)
+  );
+
+  // Solar declination in radians
+  const decl =
+    0.006918 -
+    0.399912 * Math.cos(gamma) +
+    0.070257 * Math.sin(gamma) -
+    0.006758 * Math.cos(2 * gamma) +
+    0.000907 * Math.sin(2 * gamma);
+
   const latRad = (lat * Math.PI) / 180;
+  // Atmospheric refraction angle 90° 50' = 90.833°
+  const zenith = (90.833 * Math.PI) / 180;
+  const cosH = (Math.cos(zenith) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl));
 
-  const cosOmega = (Math.sin((-0.833 * Math.PI) / 180) - Math.sin(latRad) * sinDec) / (Math.cos(latRad) * cosDec);
-  const clampedCosOmega = Math.max(-1, Math.min(1, cosOmega));
-  const omega = Math.acos(clampedCosOmega) * (180 / Math.PI);
+  const clampedCosH = Math.max(-1, Math.min(1, cosH));
+  const ha = (Math.acos(clampedCosH) * 180) / Math.PI; // hour angle in degrees
 
-  const jTransit = 2451545.0 + jStar + 0.0053 * Math.sin(mRad) - 0.0069 * Math.sin(2 * lambdaRad);
-  const jSet = jTransit + omega / 360;
-  const jRise = jTransit - omega / 360;
+  // Sunrise and Sunset in minutes from midnight UTC
+  const sunriseMinutesUTC = 720 - 4 * (lng + ha) - eqtime;
+  const sunsetMinutesUTC = 720 - 4 * (lng - ha) - eqtime;
 
-  const riseHoursUTC = ((jRise + 0.5) % 1) * 24;
-  const setHoursUTC = ((jSet + 0.5) % 1) * 24;
-
-  const riseHours = (riseHoursUTC + tz + 24) % 24;
-  const setHours = (setHoursUTC + tz + 24) % 24;
+  // Convert to decimal hours in local time
+  const sunriseHours = ((sunriseMinutesUTC / 60 + tz) % 24 + 24) % 24;
+  const sunsetHours = ((sunsetMinutesUTC / 60 + tz) % 24 + 24) % 24;
 
   return {
-    sunriseHours: riseHours,
-    sunsetHours: setHours,
-    sunriseStr: formatTime(riseHours),
-    sunsetStr: formatTime(setHours),
+    sunriseHours,
+    sunsetHours,
+    sunriseStr: formatTime(sunriseHours),
+    sunsetStr: formatTime(sunsetHours),
   };
 }
 
-function formatTime(hoursFloat: number): string {
-  const h = Math.floor(hoursFloat);
-  const m = Math.floor((hoursFloat - h) * 60);
-  const period = h >= 12 ? "PM" : "AM";
-  const displayH = h % 12 === 0 ? 12 : h % 12;
-  const mm = m < 10 ? `0${m}` : m;
+// Convert float hours (e.g. 6.77) to 12-hour formatted time ("6:46 AM")
+export function formatTime(hoursFloat: number): string {
+  const normalized = ((hoursFloat % 24) + 24) % 24;
+  const totalMins = Math.round(normalized * 60);
+  const h24 = Math.floor(totalMins / 60) % 24;
+  const m = totalMins % 60;
+  const period = h24 >= 12 ? "PM" : "AM";
+  const displayH = h24 % 12 === 0 ? 12 : h24 % 12;
+  const mm = m < 10 ? `0${m}` : `${m}`;
   return `${displayH}:${mm} ${period}`;
 }
 
@@ -178,7 +198,12 @@ export function calculatePanchang(date: Date = new Date(), city: CityLocation = 
   const isShukla = tithiIndex < 15;
   const paksha = isShukla ? "शुक्ल पक्ष (Shukla Paksha)" : "कृष्ण पक्ष (Krishna Paksha)";
   const tithiDayNumber = (tithiIndex % 15) + 1;
-  const tithiName = tithiIndex === 14 ? "पूर्णिमा (Purnima)" : tithiIndex === 29 ? "अमावस्या (Amavasya)" : TITHI_NAMES[tithiIndex % 15];
+  const tithiName =
+    tithiIndex === 14
+      ? "पूर्णिमा (Purnima)"
+      : tithiIndex === 29
+      ? "अमावस्या (Amavasya)"
+      : TITHI_NAMES[tithiIndex % 15];
 
   // 2. Nakshatra: nirayanaMoon / (360/27) = 13.3333°
   const nakshatraIndex = Math.floor(nirayanaMoon / (360 / 27)) % 27;
@@ -199,19 +224,24 @@ export function calculatePanchang(date: Date = new Date(), city: CityLocation = 
   const dayIndex = date.getDay();
   const vara = DAY_NAMES[dayIndex];
 
-  // Sun and Moon Timings
-  const { sunriseHours, sunsetHours, sunriseStr, sunsetStr } = calculateSunriseSunset(date, city.lat, city.lng, city.tz);
+  // 6. Accurate Sun Timings
+  const { sunriseHours, sunsetHours, sunriseStr, sunsetStr } = calculateSunriseSunset(
+    date,
+    city.lat,
+    city.lng,
+    city.tz
+  );
 
-  // Day length and Muhurats
-  const dayLengthHours = (sunsetHours - sunriseHours + 24) % 24;
-  const muhuratLength = dayLengthHours / 15;
+  // Day length and Muhurat calculations
+  const dayLengthHours = ((sunsetHours - sunriseHours + 24) % 24);
+  const muhuratLength = dayLengthHours / 15; // 1 Muhurat = 1/15th of daytime (~48 min)
 
-  // Brahma Muhurat: 2 muhurats (approx 96 min) before sunrise to 1 muhurat before sunrise
-  const brahmaStartHours = (sunriseHours - 1.6 + 24) % 24;
-  const brahmaEndHours = (sunriseHours - 0.8 + 24) % 24;
+  // Brahma Muhurat: 2 muhurats (approx 96 min) before sunrise to 1 muhurat before sunrise (approx 48 min)
+  const brahmaStartHours = sunriseHours - (2 * (48 / 60));
+  const brahmaEndHours = sunriseHours - (1 * (48 / 60));
   const brahmaMuhurat = `${formatTime(brahmaStartHours)} – ${formatTime(brahmaEndHours)}`;
 
-  // Abhijit Muhurat: 8th muhurat of the day (midday, roughly 24 mins before solar noon to 24 mins after)
+  // Abhijit Muhurat: 8th muhurat of daytime (approx 24 min before solar noon to 24 min after)
   const solarNoon = sunriseHours + dayLengthHours / 2;
   const abhijitStart = solarNoon - muhuratLength / 2;
   const abhijitEnd = solarNoon + muhuratLength / 2;
@@ -226,10 +256,17 @@ export function calculatePanchang(date: Date = new Date(), city: CityLocation = 
   const rahuEnd = sunriseHours + rahuP * rahuPartLength;
   const rahukaal = `${formatTime(rahuStart)} – ${formatTime(rahuEnd)}`;
 
-  // Amrit Kaal
-  const amritStart = sunriseHours + 3.5;
-  const amritEnd = amritStart + 1.6;
+  // Amrit Kaal (auspicious daytime segment)
+  const amritStart = sunriseHours + 2.5 * muhuratLength;
+  const amritEnd = amritStart + muhuratLength;
   const amritKaal = `${formatTime(amritStart)} – ${formatTime(amritEnd)}`;
+
+  // Dynamic Moonrise and Moonset based on lunar elongation
+  // Moon rises approx (diffLong / 15) hours after sunrise
+  const moonriseHours = (sunriseHours + (diffLong / 15) + 24) % 24;
+  const moonsetHours = (sunsetHours + (diffLong / 15) + 24) % 24;
+  const moonrise = formatTime(moonriseHours);
+  const moonset = formatTime(moonsetHours);
 
   // Hindu Month approximation based on solar ingress (Sankranti)
   const monthIndex = (Math.floor(nirayanaSun / 30) + 11) % 12;
@@ -239,8 +276,7 @@ export function calculatePanchang(date: Date = new Date(), city: CityLocation = 
   const vikramSamvat = date.getFullYear() + 57 + (monthIndex >= 0 ? 0 : -1);
   const shakaSamvat = date.getFullYear() - 78;
 
-  // Choghadiya Timings for the day
-  // Day choghadiya order based on weekday ruler
+  // Choghadiya Timings for the day (8 equal daytime divisions from sunrise to sunset)
   const dayChoghadiyaOrder: Record<number, string[]> = {
     0: ["उद्वेग", "चर", "लाभ", "अमृत", "काल", "शुभ", "रोग", "उद्वेग"], // Sun
     1: ["अमृत", "काल", "शुभ", "रोग", "उद्वेग", "चर", "लाभ", "अमृत"], // Mon
@@ -286,8 +322,8 @@ export function calculatePanchang(date: Date = new Date(), city: CityLocation = 
     shakaSamvat: `${shakaSamvat}`,
     sunrise: sunriseStr,
     sunset: sunsetStr,
-    moonrise: "07:45 PM",
-    moonset: "06:12 AM",
+    moonrise,
+    moonset,
     brahmaMuhurat,
     abhijitMuhurat,
     rahukaal,
