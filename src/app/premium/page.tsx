@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -36,8 +36,14 @@ export default function PremiumPaywallPage() {
 
   const t = SUBSCRIPTION_MARKETING_COPY[lang];
 
-  // Dynamically calculate the exact 3-day renewal date starting from now
-  const dynamicDates = useMemo(() => {
+  // Dynamically calculate the exact 3-day renewal date on client mount to avoid prerender time shifts
+  const [dynamicDates, setDynamicDates] = useState({
+    startDateFormatted: "आज",
+    renewalDateFormatted: "3 दिन पश्चात",
+    renewalDateRaw: "",
+  });
+
+  useEffect(() => {
     const start = new Date();
     const renewal = new Date(start.getTime() + PREVIEW_SUBSCRIPTION_CONFIG.introductoryDurationDays * 24 * 60 * 60 * 1000);
     const options: Intl.DateTimeFormatOptions = {
@@ -48,11 +54,11 @@ export default function PremiumPaywallPage() {
       minute: "2-digit",
       timeZone: "Asia/Kolkata",
     };
-    return {
-      startDateFormatted: start.toLocaleDateString("hi-IN", options),
+    setDynamicDates({
+      startDateFormatted: start.toLocaleDateString(lang === "hi" ? "hi-IN" : "en-IN", options),
       renewalDateFormatted: renewal.toLocaleDateString(lang === "hi" ? "hi-IN" : "en-IN", options),
       renewalDateRaw: renewal.toISOString(),
-    };
+    });
   }, [lang]);
 
   const handleStartPremium = async () => {

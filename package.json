@@ -8,6 +8,7 @@
     "start": "next start",
     "test:panchang": "tsx ./src/lib/panchangEngine.test.ts",
     "test:search": "tsx ./src/lib/searchEngine.test.ts",
+    "test:subscription": "tsx ./src/lib/subscriptionEngine.test.ts",
     "lint": "eslint"
   },
   "dependencies": {

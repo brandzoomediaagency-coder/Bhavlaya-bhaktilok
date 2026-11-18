@@ -290,6 +290,17 @@ export function Header() {
       {isMenuOpen && (
         <div className="xl:hidden bg-cream border-b border-gold/20 px-4 py-6 max-h-[80vh] overflow-y-auto space-y-4">
           <div className="mb-4 space-y-2">
+            <Link
+              href="/premium"
+              onClick={() => setIsMenuOpen(false)}
+              className="w-full flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-amber-500 to-maroon text-white font-bold text-sm shadow-md"
+            >
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-gold-light" />
+                <span>भावलय प्रीमियम (सिर्फ ₹1 में 3 दिन)</span>
+              </div>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
             <SmartSearchBar
               variant="compact"
               onClose={() => setIsMenuOpen(false)}
