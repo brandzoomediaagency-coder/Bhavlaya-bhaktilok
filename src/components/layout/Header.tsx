@@ -152,6 +152,15 @@ export function Header() {
               <span className="hidden sm:inline">खोजें</span>
             </button>
 
+            {/* Premium ₹1 Offer Link */}
+            <Link
+              href="/premium"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-maroon text-white text-xs font-bold hover:shadow-md transition-all shadow-xs"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-gold-light" />
+              <span>प्रीमियम ₹1</span>
+            </Link>
+
             {/* Quick Status Studio link */}
             <Link
               href="/status-maker"

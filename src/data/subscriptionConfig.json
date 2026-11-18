@@ -1,0 +1,19 @@
+{
+  "productId": "bhavlaya_premium_monthly",
+  "basePlanId": "monthly_499",
+  "offerId": "intro_1_inr_3_days",
+  "offerTag": "INTRO_1INR_3DAYS",
+  "introductoryPrice": 1,
+  "introductoryPriceMinorUnits": 100,
+  "introductoryCurrency": "INR",
+  "introductoryDurationDays": 3,
+  "recurringPrice": 499,
+  "recurringPriceMinorUnits": 49900,
+  "recurringCurrency": "INR",
+  "recurringPeriod": "P1M",
+  "autoRenew": true,
+  "offerEligibility": "NEW_CUSTOMERS",
+  "googlePlayPackage": "com.codecrewlabs.bhavlaya",
+  "minPermittedPlayConsoleInrPrice": 10,
+  "playConsolePriceFloorPolicyNotice": "Standard Google Play Console India base minimum price floor is ₹10. Introductory single-payment pricing offers may require special program approval or Play Console minimum floor compliance. If ₹1 is rejected by Play Console during SKU publishing, ₹10 is the platform floor requiring owner authorization."
+}
