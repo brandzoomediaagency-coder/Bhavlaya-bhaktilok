@@ -16,6 +16,7 @@ import {
 import { navigation, siteConfig, brandConfig, NavItem } from "@/config/site";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { SmartSearchBar } from "@/components/ui/SmartSearchBar";
+import { PWAInstallButton } from "@/components/features/PWAInstallButton";
 import { cn } from "@/lib/utils";
 
 const TICKER_ITEMS = [
@@ -160,6 +161,9 @@ export function Header() {
               <span>स्टेटस स्टूडियो</span>
             </Link>
 
+            {/* PWA Install Button */}
+            <PWAInstallButton variant="header" />
+
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -276,11 +280,12 @@ export function Header() {
       {/* 5. MOBILE ACCORDION DRAWER */}
       {isMenuOpen && (
         <div className="xl:hidden bg-cream border-b border-gold/20 px-4 py-6 max-h-[80vh] overflow-y-auto space-y-4">
-          <div className="mb-4">
+          <div className="mb-4 space-y-2">
             <SmartSearchBar
               variant="compact"
               onClose={() => setIsMenuOpen(false)}
             />
+            <PWAInstallButton variant="mobile" />
           </div>
 
           <div className="divide-y divide-gold/10">

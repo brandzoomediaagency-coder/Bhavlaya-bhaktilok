@@ -154,6 +154,18 @@ body {
   }
 }
 
+/* Reading warm mode for comfortable auto-scrolling */
+body.reading-warm-mode {
+  background-color: #F5EFE4 !important;
+  color: #1E1A17 !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.reading-warm-mode .bg-cream,
+body.reading-warm-mode .bg-white {
+  background-color: #FAF4E9 !important;
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;

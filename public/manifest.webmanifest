@@ -1,0 +1,70 @@
+{
+  "name": "Bhavlaya – Where Devotion Meets Knowledge",
+  "short_name": "Bhavlaya",
+  "description": "Explore Bhajan, Mantra, Aarti, Scriptures, Panchang, Temples and Spiritual Knowledge.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FAF8F2",
+  "theme_color": "#651D32",
+  "categories": ["lifestyle", "education", "books"],
+  "lang": "hi",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "आज का पंचांग",
+      "short_name": "पंचांग",
+      "description": "दैनिक शुभ मुहूर्त, सूर्योदय, सूर्यास्त व राहुकाल",
+      "url": "/panchang",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "भक्ति स्टेटस स्टूडियो",
+      "short_name": "स्टेटस",
+      "description": "HD 9:16 व 1:1 स्टेटस कार्ड बनाएं",
+      "url": "/status-maker",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "108 जप माला",
+      "short_name": "जप माला",
+      "description": "डिजिटल 108 मनकों वाली जप माला",
+      "url": "/tools/108-jap-mala-counter",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "136.1 Hz ॐ ध्यान",
+      "short_name": "ध्यान कक्ष",
+      "description": "ब्रह्मांडीय कंपन एवं शांति साधना",
+      "url": "/meditation",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}

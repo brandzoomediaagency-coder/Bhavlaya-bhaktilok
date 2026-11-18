@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { siteConfig, navigation, brandConfig } from "@/config/site";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import { PWAInstallButton } from "@/components/features/PWAInstallButton";
 import { Send, Heart, ShieldCheck, Mail, Sparkles } from "lucide-react";
 
 function YoutubeIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -193,6 +194,9 @@ export function Footer() {
                 <Link href="/admin" className="text-xs text-stone-light hover:text-maroon transition-colors">
                   प्रशासनिक कक्ष (CMS)
                 </Link>
+              </li>
+              <li className="pt-2">
+                <PWAInstallButton variant="footer" />
               </li>
             </ul>
           </div>
